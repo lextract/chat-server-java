@@ -3,15 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.edu.unal.arqsoft.messenger.dto;
+package co.edu.unal.arqsoft.messenger.endpoint;
 
 /**
  *
  * @author alex
  */
-public class UserDTO {
-    public int id;
-    public String name;
-    public String email;
-    public String password;
+public class MessageEP {
+    
 }

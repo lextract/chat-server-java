@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import co.edu.unal.arqsoft.messenger.businesslogic.UserBL;
+import co.edu.unal.arqsoft.messenger.model.User;
+
 /**
  *
  * @author alex
@@ -26,14 +29,23 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class UserEP {
     //-------------------Retrieve All Users--------------------------------------------------------
 
-    @RequestMapping(value = "/user/", method = RequestMethod.GET)
-    public ResponseEntity<List<UserDTO>> listAllUsers() {
+    @RequestMapping(value = "/user/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE )
+    public ResponseEntity<List<User>> getFriends() {
+        List<User> friends = UserBL.getFriends(1);
+        if (friends.isEmpty()){
+            return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<List<User>>(friends, HttpStatus.OK);
 //		List<User> users = userService.findAllUsers();
 //		if(users.isEmpty()){
 //			return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
 //		}
 //		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
-        return null;
+//        UserDTO user = new UserDTO();
+//        user.id = 123;
+//        user.name = "User 123";
+//        user.email = "correo 123";
+//        return new ResponseEntity<UserDTO>(user, HttpStatus.OK);
     }
 
     //-------------------Retrieve Single User--------------------------------------------------------
@@ -52,7 +64,7 @@ public class UserEP {
 
     //-------------------Create a User--------------------------------------------------------
     @RequestMapping(value = "/user/", method = RequestMethod.POST)
-    public ResponseEntity<Void> createUser(@RequestBody UserDTO user, UriComponentsBuilder ucBuilder) {
+    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO user) {
 //		System.out.println("Creating User " + user.getName());
 //
 //		if (userService.isUserExist(user)) {
@@ -62,9 +74,24 @@ public class UserEP {
 //
 //		userService.saveUser(user);
 //
-        HttpHeaders headers = new HttpHeaders();
+        try{
+            User nuevo = new User();
+            nuevo.setName(user.name);
+            nuevo.setEmail(user.email);
+            UserBL.create(nuevo);
+            user.id=  nuevo.getId();
+            return new ResponseEntity<UserDTO>(user, HttpStatus.CREATED);
+        }
+        catch( Exception ex){
+            System.out.println("EL ERROR DE CACA");
+            System.out.println(ex);
+            System.out.println("EL ERROR DE CACA");
+            return new ResponseEntity<UserDTO>(user, HttpStatus.NO_CONTENT);
+            
+        }
+        //HttpHeaders headers = new HttpHeaders();
 //		headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri());
-        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+        
     }
 
     //------------------- Update a User --------------------------------------------------------
