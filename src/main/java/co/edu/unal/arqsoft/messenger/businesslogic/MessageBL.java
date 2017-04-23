@@ -9,13 +9,14 @@ import java.util.List;
  * @author alex
  */
 public class MessageBL {
-    public Message create(Message message) {
+
+    public static Message create(Message message) {
         // TODO: validar, solo texto es esperado, expresion regular
         MessageDAO dao = new MessageDAO();
         return dao.create(message);
     }
-    
-    public List<Message> messages(int idConv){
+
+    public static List<Message> messages(int idConv) {
         MessageDAO dao = new MessageDAO();
         return dao.messages(idConv);
     }
