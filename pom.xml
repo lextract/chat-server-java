@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>co.edu.unal.arqsoft</groupId>
-    <artifactId>messenger-rest-server</artifactId>
+    <artifactId>messenger-backend-java</artifactId>
     <version>1.0</version>
     <packaging>war</packaging>
 
-    <name>messenger-rest-server</name>
+    <name>messenger-backend-java</name>
 
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
