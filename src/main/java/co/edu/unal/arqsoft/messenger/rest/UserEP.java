@@ -10,16 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.unal.arqsoft.messenger.businesslogic.UserBL;
 import co.edu.unal.arqsoft.messenger.model.User;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
  * @author alex
  */
-@CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping(value = "/user/")
+@RequestMapping(value = "/user")
 public class UserEP {
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

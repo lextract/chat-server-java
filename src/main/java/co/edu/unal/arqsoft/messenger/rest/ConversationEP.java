@@ -7,7 +7,6 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,9 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author alex
  */
-@CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping(value = "/conversation/")
+@RequestMapping(value = "/conversation")
 public class ConversationEP {
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -44,7 +42,7 @@ public class ConversationEP {
         }
     }
 
-    @RequestMapping(value = "/{id}/users/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{id}/users", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> addUsers(
             @PathVariable("id") int id,
             @RequestParam("idsUsers") String idsUsers) {

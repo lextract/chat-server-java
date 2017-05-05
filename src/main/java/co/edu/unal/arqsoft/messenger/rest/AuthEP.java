@@ -6,22 +6,24 @@ import co.edu.unal.arqsoft.messenger.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+
+import co.edu.unal.arqsoft.messenger.security.SecurityConfig;
 
 /**
  *
  * @author alex
  */
-@CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping(value = "/auth/")
+@RequestMapping(value = "/auth")
 public class AuthEP {
-
+    
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> login(
             @RequestParam("email") String email,
@@ -31,7 +33,10 @@ public class AuthEP {
             if (user.id == 0) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             } else {
-                // TODO: crear JWT y devolver
+                user.token = Jwts.builder()
+                    .setSubject(email)
+                    .signWith(SignatureAlgorithm.HS512, SecurityConfig.key)
+                    .compact();
                 return new ResponseEntity<>(user, HttpStatus.OK);
             }
         } catch (Exception ex) {
