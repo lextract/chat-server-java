@@ -2,7 +2,6 @@ package co.edu.unal.arqsoft.messenger.rest;
 
 import co.edu.unal.arqsoft.messenger.businesslogic.ConversationBL;
 import co.edu.unal.arqsoft.messenger.dto.ConversationDTO;
-import co.edu.unal.arqsoft.messenger.model.Conversation;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,7 +32,7 @@ public class ConversationEP {
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> create(@RequestBody Conversation conversation) {
+    public ResponseEntity<?> create(@RequestBody ConversationDTO conversation) {
         try {
             ConversationBL.create(conversation);
             return new ResponseEntity<>(conversation, HttpStatus.CREATED);

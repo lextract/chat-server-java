@@ -1,7 +1,7 @@
 package co.edu.unal.arqsoft.messenger.dao;
 
+import co.edu.unal.arqsoft.messenger.dto.MessageDTO;
 import co.edu.unal.arqsoft.messenger.model.Message;
-import co.edu.unal.arqsoft.messenger.model.User;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -31,16 +31,22 @@ public class MessageDAO {
         return message;
     }
     
-    public List<Message> messages(int idConv){
+    public List<MessageDTO> messages(int idConv){
         EntityManager em = emf.createEntityManager();
         EntityTransaction ut = em.getTransaction();
-        List<Message> messages = new ArrayList<Message>();
+        List<MessageDTO> messages = new ArrayList<MessageDTO>();
         try {
             ut.begin();
-            String query = "select id, text from Message where idConversation =" + idConv + ";";
+            String query = "select m.id, m.text, u.name from Message m "
+                +"inner join User u on u.id = m.idUser "
+                +"where m.idConversation =" + idConv + ";";
             List<Object[]> rs = em.createNativeQuery(query).getResultList();
             for (Object[] row : rs){
-                messages.add(new Message(Integer.parseInt(row[0].toString()),row[1].toString(),null));
+                MessageDTO m = new MessageDTO();
+                m.id = Integer.parseInt(row[0].toString());
+                m.text = row[1].toString();
+                m.userName = row[2].toString();
+                messages.add(m);
             }
             ut.commit();
         } catch (Exception ex) {

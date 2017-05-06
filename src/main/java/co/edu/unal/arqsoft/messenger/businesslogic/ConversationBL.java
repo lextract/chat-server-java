@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.edu.unal.arqsoft.messenger.businesslogic;
 
 import co.edu.unal.arqsoft.messenger.dao.ConversationDAO;
@@ -18,10 +13,16 @@ import java.util.List;
  */
 public class ConversationBL {
     
-    public static Conversation create(Conversation conversation){
+    public static ConversationDTO create(ConversationDTO conversation){
         ConversationDAO dao = new ConversationDAO();
-        conversation.setCreatedDate(new Date());
-        dao.create(conversation);
+        Conversation conv = new Conversation();
+        conv.setCreatedDate(new Date());
+        conv.setIdCreator(new User(conversation.idCreator));
+        conv.setName(conversation.name);
+        dao.create(conv);
+        addUsers(conv.getId(), conversation.usersIds);
+        addUsers(conv.getId(), String.valueOf(conversation.idCreator));
+        conversation.id = conv.getId();
         return conversation;
     }
     
@@ -36,6 +37,11 @@ public class ConversationBL {
         // TODO: por cada id validar expresion regular numero entero, arrojar exepcion en caso de ser invalido
        ConversationDAO dao = new ConversationDAO();
        return dao.addUsers(idConv, ids);
+    }
+    
+    public static void updateLastMessage(int idConv, int idLastMessage){
+        ConversationDAO dao = new ConversationDAO();
+        dao.updateLastMessage(idConv, idLastMessage);
     }
     
 //    public static List<User> usersConversation(int idConversation){

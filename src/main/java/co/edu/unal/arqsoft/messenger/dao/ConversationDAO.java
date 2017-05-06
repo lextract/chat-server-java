@@ -1,22 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.edu.unal.arqsoft.messenger.dao;
 
 import co.edu.unal.arqsoft.messenger.dto.ConversationDTO;
 import co.edu.unal.arqsoft.messenger.model.Conversation;
-import co.edu.unal.arqsoft.messenger.model.User;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-//import javax.persistence.PersistenceContext;
 
-//import javax.transaction.UserTransaction;
 /**
  *
  * @author alex
@@ -50,7 +42,7 @@ public class ConversationDAO {
                 values += "(" + idConv + "," + idsUsers[i] + "),";
             }
             values += "(" + idConv + "," + idsUsers[idsUsers.length - 1] + ")";
-
+            values = "insert into ConversationUser(idConversation, idUser) values " + values;
             ut.begin();
             added = em.createNativeQuery(values).executeUpdate();
             ut.commit();
@@ -76,7 +68,7 @@ public class ConversationDAO {
                 ConversationDTO conv = new ConversationDTO();
                 conv.id = Integer.parseInt(row[0].toString());
                 conv.name = row[1].toString();
-                conv.lastMessageText = row[1].toString();
+                conv.lastMessageText = row[2] == null ? "" : row[2].toString();
                 convs.add(conv);
             }
             ut.commit();
@@ -87,57 +79,20 @@ public class ConversationDAO {
         }
         return convs;
     }
+    
+    public void updateLastMessage(int idConv, int idLastMessage){
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction ut = em.getTransaction();
+        try {
+            ut.begin();
+            String query = "update Conversation set idLastMessage=" + idLastMessage
+                + " where id=" + idConv + ";";
+            em.createNativeQuery(query).executeUpdate();
+            ut.commit();
+        } catch (Exception ex) {
+            System.out.println("ERROR DAO: Actualizando conversacion");
+            System.out.println(ex);
+            ut.rollback();
+        }
+    }
 }
-//    //@PersistenceContext
-//    EntityManager em;
-//    
-//    public Conversation persist(Conversation conversation){
-//        //em.getTransaction().begin();
-//        //em.gettr
-//        em.persist(conversation);
-//        //em.getTransaction().commit();
-//        return conversation;
-//    }
-
-
-//public Conversation persist(Conversation conversation) {
-//        EntityManager em = emf.createEntityManager();
-//        em.getTransaction().begin();
-//        try {
-//            em.persist(conversation);
-//            em.getTransaction().commit();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            em.getTransaction().rollback();
-//        } finally {
-//            em.close();
-//        }
-//        return conversation;
-//    }
-//
-//    public List<User> usersConversation(int idConversation) {
-//
-//        System.out.println("ENTRO AL DAO");
-//        EntityManager em = emf.createEntityManager();
-//        //em.merge(User.class);
-//        EntityTransaction ut = em.getTransaction();
-//        List<User> users = new ArrayList<User>();
-//        try {
-//            System.out.println("ENTRO AL DAO TRYYYYYYYYYYYYY");
-//            ut.begin();
-//            //users = em.createQuery("SELECT p FROM User p").getResultList(); 
-//            //users = em.createNamedQuery("User.findAll", User.class).getResultList();
-//            users = em.createNativeQuery("SELECT u.Id, u.Name, u.Email FROM User AS u").getResultList();
-//
-//            ut.commit();
-//        } catch (Exception ex) {
-//            System.out.println(ex);
-//            if (ut == null) {
-//                System.out.println("EL UT ESTA NULO");
-//            } else {
-//                System.out.println("NOOOOOOOOOOOOO esta NULO");
-//            }
-//            ut.rollback();
-//        }
-//        return users;
-//    }

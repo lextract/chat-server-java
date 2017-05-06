@@ -1,6 +1,7 @@
 package co.edu.unal.arqsoft.messenger.rest;
 
 import co.edu.unal.arqsoft.messenger.businesslogic.MessageBL;
+import co.edu.unal.arqsoft.messenger.dto.MessageDTO;
 import co.edu.unal.arqsoft.messenger.model.Message;
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -33,7 +34,7 @@ public class MessageEP {
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getAll(@RequestParam("idConv") int idConv) {
         try {
-            List<Message> messages = MessageBL.messages(idConv);
+            List<MessageDTO> messages = MessageBL.messages(idConv);
             return new ResponseEntity<>(messages, HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
