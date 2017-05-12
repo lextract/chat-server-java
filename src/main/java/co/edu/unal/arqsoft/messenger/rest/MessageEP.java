@@ -2,8 +2,12 @@ package co.edu.unal.arqsoft.messenger.rest;
 
 import co.edu.unal.arqsoft.messenger.businesslogic.MessageBL;
 import co.edu.unal.arqsoft.messenger.dto.MessageDTO;
+import co.edu.unal.arqsoft.messenger.dto.UserDTO;
 import co.edu.unal.arqsoft.messenger.model.Message;
+import co.edu.unal.arqsoft.messenger.model.User;
+import co.edu.unal.arqsoft.messenger.security.JwtFilter;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +26,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class MessageEP {
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> create(@RequestBody Message message) {
+    public ResponseEntity<?> create(HttpServletRequest req, @RequestBody Message message) {
         try {
+            UserDTO u = JwtFilter.extractUser(req);
+            message.setIdUser(new User(u.id));
             MessageBL.create(message);
             return new ResponseEntity<>(message, HttpStatus.CREATED);
         } catch (Exception ex) {

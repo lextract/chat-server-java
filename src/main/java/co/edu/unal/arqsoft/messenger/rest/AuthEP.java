@@ -27,14 +27,15 @@ public class AuthEP {
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> login(
             @RequestParam("email") String email,
-            @RequestParam("password") String password) {
+            @RequestParam("password") String password
+    ) {
         try {
             UserDTO user = AuthBL.login(email, password);
             if (user.id == 0) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             } else {
                 user.token = Jwts.builder()
-                    .setSubject(email)
+                    .setSubject(String.valueOf(user.id))
                     .signWith(SignatureAlgorithm.HS512, SecurityConfig.key)
                     .compact();
                 return new ResponseEntity<>(user, HttpStatus.OK);

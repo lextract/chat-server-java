@@ -2,7 +2,10 @@ package co.edu.unal.arqsoft.messenger.rest;
 
 import co.edu.unal.arqsoft.messenger.businesslogic.ConversationBL;
 import co.edu.unal.arqsoft.messenger.dto.ConversationDTO;
+import co.edu.unal.arqsoft.messenger.dto.UserDTO;
+import co.edu.unal.arqsoft.messenger.security.JwtFilter;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +25,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class ConversationEP {
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getAll(@RequestParam("idUser") int idUser) {
+    public ResponseEntity<?> getAll(HttpServletRequest req) {
         try {
-            List<ConversationDTO> convs = ConversationBL.conversations(idUser);
+            UserDTO u = JwtFilter.extractUser(req);
+            List<ConversationDTO> convs = ConversationBL.conversations(u.id);
             return new ResponseEntity<>(convs, HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -34,6 +38,7 @@ public class ConversationEP {
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> create(@RequestBody ConversationDTO conversation) {
         try {
+            // TODO: validate creator same jwt user
             ConversationBL.create(conversation);
             return new ResponseEntity<>(conversation, HttpStatus.CREATED);
         } catch (Exception ex) {

@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.unal.arqsoft.messenger.businesslogic.UserBL;
+import co.edu.unal.arqsoft.messenger.dto.UserDTO;
 import co.edu.unal.arqsoft.messenger.model.User;
-import org.springframework.web.bind.annotation.RequestParam;
+import co.edu.unal.arqsoft.messenger.security.JwtFilter;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -21,12 +23,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class UserEP {
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getFriends(@RequestParam("idUser") int idUser) {
+    public ResponseEntity<?> getFriends(HttpServletRequest req) {
         try {
-            List<User> friends = UserBL.getFriends(idUser);
+            UserDTO u = JwtFilter.extractUser(req);
+            List<User> friends = UserBL.getFriends(u.id);
             return new ResponseEntity<>(friends, HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    
 }

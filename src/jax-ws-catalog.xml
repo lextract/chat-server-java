@@ -2,4 +2,5 @@
 <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
     <system systemId="http://192.168.2.128:8080/EventByte/EventAccess?wsdl" uri="wsdl/192.168.2.128_8080/EventByte/EventAccess.wsdl"/>
     <system systemId="http://192.168.2.128:8080/EventByte/EventAccess?xsd=1" uri="wsdl/192.168.2.128_8080/EventByte/EventAccess.xsd_1.xsd"/>
+    <system systemId="http://192.168.2.128:9130/friendsPrivateEventsESBService/friendsPrivateEventsESBPort?wsdl" uri="wsdl/192.168.2.128_9130/friendsPrivateEventsESBService/friendsPrivateEventsESBPort.wsdl"/>
 </catalog>

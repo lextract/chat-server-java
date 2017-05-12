@@ -1,6 +1,6 @@
 webpackJsonp([1,4],{
 
-/***/ 134:
+/***/ 102:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13,11 +13,11 @@ var CHAT_URL = "ws://localhost:4499";
 
 /***/ }),
 
-/***/ 135:
+/***/ 103:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__(59);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__(61);
 /* harmony export (immutable) */ __webpack_exports__["c"] = jsonHeader;
 /* harmony export (immutable) */ __webpack_exports__["a"] = jwtHeader;
 /* harmony export (immutable) */ __webpack_exports__["b"] = jwtAndJson;
@@ -43,14 +43,15 @@ function jwtAndJson() {
 
 /***/ }),
 
-/***/ 316:
+/***/ 345:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(195);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models__ = __webpack_require__(319);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_auth_service__ = __webpack_require__(321);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(223);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models__ = __webpack_require__(348);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_auth_service__ = __webpack_require__(350);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__sessionCtrl__ = __webpack_require__(354);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -61,6 +62,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -77,14 +79,12 @@ var LoginComponent = (function () {
     }
     LoginComponent.prototype.loginSubmit = function () {
         var _this = this;
-        if (!this.userEmail || !this.userPass) {
-            this.errorMessage = "Datos invalidos";
-        }
         this.authSrv.login(this.userEmail, this.userPass).subscribe(function (user) {
-            var sUser = JSON.stringify(user);
-            localStorage.setItem('userId', user.id);
-            localStorage.setItem('user', sUser);
-            localStorage.setItem('jwtToken', user.token);
+            __WEBPACK_IMPORTED_MODULE_4__sessionCtrl__["c" /* setUser */](user);
+            __WEBPACK_IMPORTED_MODULE_4__sessionCtrl__["d" /* set */]('jwtToken', user.token);
+            // let sUser = JSON.stringify(user);
+            // localStorage.setItem('userId',user.id);
+            // localStorage.setItem('user',sUser);
             _this.router.navigate(['./messenger']);
         }, function (error) {
             console.log(error);
@@ -92,9 +92,6 @@ var LoginComponent = (function () {
     };
     LoginComponent.prototype.signinSubmit = function () {
         var _this = this;
-        if (!this.userEmail || !this.userPass || this.userName) {
-            this.errorMessage = "Datos invalidos";
-        }
         var user = new __WEBPACK_IMPORTED_MODULE_2__models__["b" /* User */]();
         user.name = this.userName;
         user.email = this.userEmail;
@@ -103,18 +100,15 @@ var LoginComponent = (function () {
             _this.loginSubmit();
         }, function (error) {
             _this.errorMessage = "Datos invalidos";
-            //console.log(error);
+            console.log(error);
         });
-    };
-    LoginComponent.prototype.navToMessenger = function () {
-        //this.router.navigate(['./messenger']);
     };
     LoginComponent.prototype.ngOnInit = function () { };
     LoginComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_5" /* Component */])({
             selector: 'app-login',
-            template: __webpack_require__(568),
-            styles: [__webpack_require__(560)]
+            template: __webpack_require__(612),
+            styles: [__webpack_require__(604)]
         }), 
         __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === 'function' && _a) || Object, (typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__services_auth_service__["a" /* AuthService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_3__services_auth_service__["a" /* AuthService */]) === 'function' && _b) || Object])
     ], LoginComponent);
@@ -125,19 +119,20 @@ var LoginComponent = (function () {
 
 /***/ }),
 
-/***/ 317:
+/***/ 346:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(195);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_socket_io_client__ = __webpack_require__(586);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(223);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_socket_io_client__ = __webpack_require__(877);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_socket_io_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_socket_io_client__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_conversation_service__ = __webpack_require__(322);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_user_service__ = __webpack_require__(324);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_message_service__ = __webpack_require__(323);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__models_Message__ = __webpack_require__(318);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__models__ = __webpack_require__(319);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_conversation_service__ = __webpack_require__(351);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_user_service__ = __webpack_require__(353);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_message_service__ = __webpack_require__(352);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__models_Message__ = __webpack_require__(347);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__models__ = __webpack_require__(348);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__sessionCtrl__ = __webpack_require__(354);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MessengerComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -148,6 +143,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -168,9 +164,14 @@ var MessengerComponent = (function () {
         this.messages = [];
         this.newMessage = "";
         this.friends = [];
-        this.userName = JSON.parse(localStorage.getItem("user")).name;
+        this.userName = __WEBPACK_IMPORTED_MODULE_8__sessionCtrl__["a" /* getUser */]().name;
         // TODO: fix machete!!!!!
-        setTimeout(function () { return _this.ngOnInit(); }, 5);
+        this.timer = setInterval(function () {
+            _this.convsSrv.getAll().subscribe(function (convs) { return _this.conversations = convs; });
+            if (_this.currentConversation)
+                _this.mesageSrv.getByConversation(_this.currentConversation.id)
+                    .subscribe(function (messages) { return _this.messages = messages; });
+        }, 7000);
     }
     MessengerComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -179,10 +180,10 @@ var MessengerComponent = (function () {
         //this.initlizeChatSocket();
     };
     MessengerComponent.prototype.ngOnDestroy = function () {
+        clearInterval(this.timer);
     };
     MessengerComponent.prototype.showConv = function (id) {
         var _this = this;
-        console.log("cargando conversation: " + id);
         var conv = this.conversations.find(function (conv) { return conv.id == id; });
         this.currentConversation = conv;
         this.mesageSrv.getByConversation(id).subscribe(function (messages) {
@@ -245,14 +246,14 @@ var MessengerComponent = (function () {
         });
     };
     MessengerComponent.prototype.logout = function () {
-        localStorage.removeItem('jwt_token');
+        __WEBPACK_IMPORTED_MODULE_8__sessionCtrl__["b" /* remUser */]();
         this.router.navigate(['./login']);
     };
     MessengerComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_5" /* Component */])({
             selector: 'app-messenger',
-            template: __webpack_require__(569),
-            styles: [__webpack_require__(561)]
+            template: __webpack_require__(613),
+            styles: [__webpack_require__(605)]
         }), 
         __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === 'function' && _a) || Object, (typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_4__services_user_service__["a" /* UserService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_4__services_user_service__["a" /* UserService */]) === 'function' && _b) || Object, (typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__services_conversation_service__["a" /* ConversationService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_3__services_conversation_service__["a" /* ConversationService */]) === 'function' && _c) || Object, (typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_5__services_message_service__["a" /* MessageService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_5__services_message_service__["a" /* MessageService */]) === 'function' && _d) || Object])
     ], MessengerComponent);
@@ -263,7 +264,7 @@ var MessengerComponent = (function () {
 
 /***/ }),
 
-/***/ 318:
+/***/ 347:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -277,15 +278,15 @@ var Message = (function () {
 
 /***/ }),
 
-/***/ 319:
+/***/ 348:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__User__ = __webpack_require__(490);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__User__ = __webpack_require__(533);
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_0__User__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Conversation__ = __webpack_require__(489);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Conversation__ = __webpack_require__(532);
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_1__Conversation__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Message__ = __webpack_require__(318);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Message__ = __webpack_require__(347);
 /* unused harmony namespace reexport */
 // TODO: re-export all models
 
@@ -295,11 +296,11 @@ var Message = (function () {
 
 /***/ }),
 
-/***/ 320:
+/***/ 349:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NotFoundComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -327,20 +328,16 @@ var NotFoundComponent = (function () {
 
 /***/ }),
 
-/***/ 321:
+/***/ 350:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(59);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__ = __webpack_require__(142);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__ = __webpack_require__(573);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__constants__ = __webpack_require__(134);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__requestOptionsHelper__ = __webpack_require__(135);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(61);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs__ = __webpack_require__(162);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__constants__ = __webpack_require__(102);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__requestOptionsHelper__ = __webpack_require__(103);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -356,41 +353,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
-
-var endPoint = __WEBPACK_IMPORTED_MODULE_5__constants__["a" /* API_URL */] + '/auth';
+var endPoint = __WEBPACK_IMPORTED_MODULE_3__constants__["a" /* API_URL */] + '/auth';
 var AuthService = (function () {
     function AuthService(http) {
         this.http = http;
     }
     AuthService.prototype.login = function (email, password) {
         var url = endPoint + '?email=' + email + '&password=' + password;
-        return this.http.get(url).map(function (res) {
-            // TODO: change to send status code (see catch() method of http.get() )
-            console.log(res);
-            return res.json();
-        }).catch(this.handleError);
+        return this.http.get(url)
+            .map(function (res) { return res.json(); })
+            .catch(handleError);
     };
     AuthService.prototype.signin = function (user) {
-        return this.http.post(endPoint, JSON.stringify(user), __WEBPACK_IMPORTED_MODULE_6__requestOptionsHelper__["c" /* jsonHeader */]())
-            .map(function (res) { return res.json(); });
-    };
-    AuthService.prototype.logout = function () {
-        // remove user from local storage to log user out
-        localStorage.removeItem('jwtToken');
-    };
-    AuthService.prototype.handleError = function (error) {
-        // In a real world app, you might use a remote logging infrastructure
-        // let errMsg: string;
-        // if (error instanceof Response) {
-        //   const body = error.json() || '';
-        //   const err = body.error || JSON.stringify(body);
-        //   errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-        // } else {
-        //   errMsg = error.message ? error.message : error.toString();
-        // }
-        // console.error(errMsg);
-        return __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"].throw("errMsg");
+        return this.http.post(endPoint, JSON.stringify(user), __WEBPACK_IMPORTED_MODULE_4__requestOptionsHelper__["c" /* jsonHeader */]())
+            .map(function (res) { return res.json(); })
+            .catch(handleError);
     };
     AuthService = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["c" /* Injectable */])(), 
@@ -399,38 +376,33 @@ var AuthService = (function () {
     return AuthService;
     var _a;
 }());
-// login2(email: string, password: string) {
-//     let postData = JSON.stringify({ email: email, password: password });
-//     return this.http.post(endPoint, postData, roh.jsonHeader()).map((res: Response) => {
-//       // login successful if there's a jwt token in the response
-//       let r = res.json();
-//       console.log(r);
-//       if (r && r.token) {
-//         // store user details and jwt token in local storage to keep user logged in between page refreshes
-//         localStorage.setItem('jwt_token', r.token);
-//       }
-//       else {
-//         //
-//       }
-//       return r;
-//     });
-//   }
+function handleError(error) {
+    // In a real world app, you might use a remote logging infrastructure
+    // let errMsg: string;
+    // if (error instanceof Response) {
+    //   const body = error.json() || '';
+    //   const err = body.error || JSON.stringify(body);
+    //   errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+    // } else {
+    //   errMsg = error.message ? error.message : error.toString();
+    // }
+    // console.error(errMsg);
+    return __WEBPACK_IMPORTED_MODULE_2_rxjs__["Observable"].throw("errMsg Auth Service");
+}
 //# sourceMappingURL=auth.service.js.map
 
 /***/ }),
 
-/***/ 322:
+/***/ 351:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(59);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__ = __webpack_require__(142);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__constants__ = __webpack_require__(134);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__requestOptionsHelper__ = __webpack_require__(135);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(61);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs__ = __webpack_require__(162);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__constants__ = __webpack_require__(102);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__requestOptionsHelper__ = __webpack_require__(103);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ConversationService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -446,26 +418,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
-var endPoint = __WEBPACK_IMPORTED_MODULE_4__constants__["a" /* API_URL */] + '/conversation';
-var endPointUsers = __WEBPACK_IMPORTED_MODULE_4__constants__["a" /* API_URL */] + '/conversation/:id/users';
+var endPoint = __WEBPACK_IMPORTED_MODULE_3__constants__["a" /* API_URL */] + '/conversation';
+var endPointUsers = __WEBPACK_IMPORTED_MODULE_3__constants__["a" /* API_URL */] + '/conversation/:id/users';
 var ConversationService = (function () {
     function ConversationService(http) {
         this.http = http;
     }
     ConversationService.prototype.getAll = function () {
-        //return this.http.get(apiUrl, jwtHeader()).map((response: Response) => response.json());
-        var url = endPoint + "?idUser=" + localStorage.getItem("userId");
-        return this.http.get(url, __WEBPACK_IMPORTED_MODULE_5__requestOptionsHelper__["a" /* jwtHeader */]())
+        //let url = endPoint + "?idUser=" + localStorage.getItem("userId");
+        return this.http.get(endPoint, __WEBPACK_IMPORTED_MODULE_4__requestOptionsHelper__["a" /* jwtHeader */]())
             .map(function (res) { return res.json(); })
-            .catch(this.handleError);
+            .catch(handleError);
     };
     ConversationService.prototype.create = function (conv) {
-        // TODO: set de jwt token header
+        // TODO: set idCreator inside backend
         conv.idCreator = parseInt(localStorage.getItem("userId"));
-        return this.http.post(endPoint, conv, __WEBPACK_IMPORTED_MODULE_5__requestOptionsHelper__["b" /* jwtAndJson */]())
+        return this.http.post(endPoint, conv, __WEBPACK_IMPORTED_MODULE_4__requestOptionsHelper__["b" /* jwtAndJson */]())
             .map(function (res) { return res.json(); })
-            .catch(this.handleError);
+            .catch(handleError);
     };
     /**
      * Agrega usuarios a una conversación en particular
@@ -485,17 +455,6 @@ var ConversationService = (function () {
         var url = endPointUsers.replace(":id", idConv.toString());
         return this.http.delete(url).map(function (res) { return res.json(); });
     };
-    // update(user: User) {
-    //   return this.http.put(apiUrl + '/' + user.id, user, jwtHeader()).map((response: Response) => response.json());
-    // }
-    // delete(id: number) {
-    //   //return this.http.delete(endPoint + '/' + id, jwtHeader()).map(res => res.json());
-    //   return this.http.delete(endPoint + '/' + id).map(res => res.json());
-    // }
-    ConversationService.prototype.handleError = function (error) {
-        console.log(error);
-        return __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"].throw(error);
-    };
     ConversationService = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["c" /* Injectable */])(), 
         __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Http */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Http */]) === 'function' && _a) || Object])
@@ -503,38 +462,25 @@ var ConversationService = (function () {
     return ConversationService;
     var _a;
 }());
-// let convs: Conversation[] = [
-//       { id: 101, name: "Conversation 1", users: [{id:123,name:"Al Hassem"}]},
-//       { id: 102, name: "Conversation 2", users: [{id:123,name:"Mohamed"}]},
-//       { id: 103, name: "Conversation 3", users: [{id:123,name:"Nostradamus"}]}
-//     ]
-//     ;
-//let params = new URLSearchParams();
-// //params.set('search', term); // the user's search value
-// params.set('action', 'opensearch');
-// params.set('format', 'json');
-//params.set('callback', 'JSONP_CALLBACK');
-// getAllOwn(){
-//   let params = new URLSearchParams();
-//   params.set('callback', 'JSONP_CALLBACK');
-//   return this.http.get(apiUrl, { search: params }).map(res => res.json());
-// }
+function handleError(error) {
+    return __WEBPACK_IMPORTED_MODULE_2_rxjs__["Observable"].throw("errMsg Conversation Service");
+}
 //# sourceMappingURL=conversation.service.js.map
 
 /***/ }),
 
-/***/ 323:
+/***/ 352:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(59);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__constants__ = __webpack_require__(134);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(61);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__constants__ = __webpack_require__(102);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_map__ = __webpack_require__(142);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_map__ = __webpack_require__(376);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_map__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__requestOptionsHelper__ = __webpack_require__(135);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__requestOptionsHelper__ = __webpack_require__(103);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MessageService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -560,17 +506,13 @@ var MessageService = (function () {
         var url = endPoint + "?idConv=" + idConv;
         return this.http.get(url, __WEBPACK_IMPORTED_MODULE_5__requestOptionsHelper__["a" /* jwtHeader */]())
             .map(function (res) { return res.json(); })
-            .catch(this.handleError);
+            .catch(handleError);
     };
     MessageService.prototype.create = function (message) {
         message.idUser = parseInt(localStorage.getItem("userId"));
         return this.http.post(endPoint, message, __WEBPACK_IMPORTED_MODULE_5__requestOptionsHelper__["b" /* jwtAndJson */]())
             .map(function (res) { return res.json(); })
-            .catch(this.handleError);
-    };
-    MessageService.prototype.handleError = function (error) {
-        console.log(error);
-        return __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].throw(error);
+            .catch(handleError);
     };
     MessageService = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["c" /* Injectable */])(), 
@@ -579,22 +521,23 @@ var MessageService = (function () {
     return MessageService;
     var _a;
 }());
+function handleError(error) {
+    return __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].throw("errMsg Message Service");
+}
 //# sourceMappingURL=message.service.js.map
 
 /***/ }),
 
-/***/ 324:
+/***/ 353:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(59);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__ = __webpack_require__(142);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__constants__ = __webpack_require__(134);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__requestOptionsHelper__ = __webpack_require__(135);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(61);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs__ = __webpack_require__(162);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__constants__ = __webpack_require__(102);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__requestOptionsHelper__ = __webpack_require__(103);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UserService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -610,53 +553,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
-var endPoint = __WEBPACK_IMPORTED_MODULE_4__constants__["a" /* API_URL */] + '/user';
+var endPoint = __WEBPACK_IMPORTED_MODULE_3__constants__["a" /* API_URL */] + '/user';
 var UserService = (function () {
     function UserService(http) {
         this.http = http;
     }
     UserService.prototype.getFriends = function () {
-        //return this.http.post('/api/users', user, this.jwt()).map((response: Response) => response.json());
         // TODO: con jwt el server conoce el id del usuario actual, devuelve la lista de amigos
-        var url = endPoint + "?idUser=" + localStorage.getItem("userId");
-        return this.http.get(url, __WEBPACK_IMPORTED_MODULE_5__requestOptionsHelper__["a" /* jwtHeader */]())
+        return this.http.get(endPoint, __WEBPACK_IMPORTED_MODULE_4__requestOptionsHelper__["a" /* jwtHeader */]())
             .map(function (res) { return res.json(); })
-            .catch(this.handleError);
-        // return new Promise<User[]>((resolve)=> {
-        //   //resolve(friends);
-        //   let params = new URLSearchParams();
-        // //params.set('search', term); // the user's search value
-        // params.set('action', 'opensearch');
-        // params.set('format', 'json');
-        // params.set('callback', 'JSONP_CALLBACK');
-        //   this.jsonp.get(apiUrl, { search: params }
-        //   ).subscribe(res => {
-        //     console.log(res);
-        //     resolve(res.json());
-        //   })
-        // });
-        //return
-        // .subscribe((response: Response) => {
-        //   console.log("LA GRAN PYTA MUERDA");
-        //   console.log(response);
-        //   let result = response.json();
-        //   console.log(result);
-        //   return result;
-        // });//.catch(this.handleError);
-    };
-    UserService.prototype.handleError = function (error) {
-        // In a real world app, you might use a remote logging infrastructure
-        // let errMsg: string;
-        // if (error instanceof Response) {
-        //   const body = error.json() || '';
-        //   const err = body.error || JSON.stringify(body);
-        //   errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-        // } else {
-        //   errMsg = error.message ? error.message : error.toString();
-        // }
-        console.error(error);
-        return __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"].throw(error);
+            .catch(handleError);
     };
     UserService = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["c" /* Injectable */])(), 
@@ -665,34 +571,67 @@ var UserService = (function () {
     return UserService;
     var _a;
 }());
-// let current: User = {
-//   id: 21,
-//   name: "Alex"
-// }
-// let friends: User[] = [
-//   { id: 11, name: "Goku" },
-//   { id: 12, name: "Alf" },
-//   { id: 12, name: "Homero" }
-// ]
 function handleError(error) {
-    // In a real world app, you might use a remote logging infrastructure
-    var errMsg;
-    if (error instanceof __WEBPACK_IMPORTED_MODULE_1__angular_http__["f" /* Response */]) {
-        var body = error.json() || '';
-        var err = body.error || JSON.stringify(body);
-        errMsg = error.status + " - " + (error.statusText || '') + " " + err;
-    }
-    else {
-        errMsg = error.message ? error.message : error.toString();
-    }
-    console.error(errMsg);
-    return __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"].throw(errMsg);
+    return __WEBPACK_IMPORTED_MODULE_2_rxjs__["Observable"].throw("errMsg User Service");
 }
 //# sourceMappingURL=user.service.js.map
 
 /***/ }),
 
-/***/ 367:
+/***/ 354:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["c"] = setUser;
+/* harmony export (immutable) */ __webpack_exports__["a"] = getUser;
+/* harmony export (immutable) */ __webpack_exports__["b"] = remUser;
+/* harmony export (immutable) */ __webpack_exports__["d"] = set;
+/* unused harmony export get */
+/* unused harmony export remove */
+var cache = new Map();
+var userKey = 'user';
+function setUser(user) {
+    cache.set(userKey, user);
+    localStorage.setItem(userKey, JSON.stringify(user));
+}
+function getUser() {
+    if (cache.has(userKey))
+        return cache.get(userKey);
+    else {
+        return JSON.parse(localStorage.getItem(userKey));
+    }
+}
+function remUser() {
+    localStorage.removeItem(userKey);
+}
+function set(key, data, cached) {
+    if (cached === void 0) { cached = true; }
+    if (typeof data == 'object') {
+        localStorage.setItem(key, JSON.stringify(data));
+        if (cached)
+            cache.set(key, data);
+    }
+    else {
+        localStorage.setItem(key, data);
+        if (cached)
+            cache.set(key, data);
+    }
+}
+function get(key) {
+    if (cache.has(key))
+        return cache.get(key);
+    else
+        return JSON.parse(localStorage.getItem(key));
+}
+function remove(key) {
+    cache.delete(key);
+    localStorage.removeItem(key);
+}
+//# sourceMappingURL=sessionCtrl.js.map
+
+/***/ }),
+
+/***/ 410:
 /***/ (function(module, exports) {
 
 function webpackEmptyContext(req) {
@@ -701,20 +640,20 @@ function webpackEmptyContext(req) {
 webpackEmptyContext.keys = function() { return []; };
 webpackEmptyContext.resolve = webpackEmptyContext;
 module.exports = webpackEmptyContext;
-webpackEmptyContext.id = 367;
+webpackEmptyContext.id = 410;
 
 
 /***/ }),
 
-/***/ 368:
+/***/ 411:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__ = __webpack_require__(456);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_app_module__ = __webpack_require__(488);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment__ = __webpack_require__(491);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__ = __webpack_require__(499);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_app_module__ = __webpack_require__(531);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment__ = __webpack_require__(535);
 
 
 
@@ -727,15 +666,15 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dyna
 
 /***/ }),
 
-/***/ 486:
+/***/ 529:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(195);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__not_found_component__ = __webpack_require__(320);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__login_login_component__ = __webpack_require__(316);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__messenger_messenger_component__ = __webpack_require__(317);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(223);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__not_found_component__ = __webpack_require__(349);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__login_login_component__ = __webpack_require__(345);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__messenger_messenger_component__ = __webpack_require__(346);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppRoutingModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -775,11 +714,11 @@ var AppRoutingModule = (function () {
 
 /***/ }),
 
-/***/ 487:
+/***/ 530:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -797,8 +736,8 @@ var AppComponent = (function () {
     AppComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_5" /* Component */])({
             selector: 'app-root',
-            template: __webpack_require__(567),
-            styles: [__webpack_require__(559)]
+            template: __webpack_require__(611),
+            styles: [__webpack_require__(603)]
         }), 
         __metadata('design:paramtypes', [])
     ], AppComponent);
@@ -808,23 +747,24 @@ var AppComponent = (function () {
 
 /***/ }),
 
-/***/ 488:
+/***/ 531:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__(131);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(447);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(59);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_auth_service__ = __webpack_require__(321);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_conversation_service__ = __webpack_require__(322);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__services_message_service__ = __webpack_require__(323);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__services_user_service__ = __webpack_require__(324);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__app_component__ = __webpack_require__(487);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__not_found_component__ = __webpack_require__(320);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__login_login_component__ = __webpack_require__(316);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__messenger_messenger_component__ = __webpack_require__(317);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__app_routing_module__ = __webpack_require__(486);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__(152);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(490);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(61);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_auth_service__ = __webpack_require__(350);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_conversation_service__ = __webpack_require__(351);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__services_message_service__ = __webpack_require__(352);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__services_user_service__ = __webpack_require__(353);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__services_event_service__ = __webpack_require__(534);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__app_component__ = __webpack_require__(530);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__not_found_component__ = __webpack_require__(349);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__login_login_component__ = __webpack_require__(345);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__messenger_messenger_component__ = __webpack_require__(346);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__app_routing_module__ = __webpack_require__(529);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -848,26 +788,27 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var AppModule = (function () {
     function AppModule() {
     }
     AppModule = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["b" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_8__app_component__["a" /* AppComponent */],
-                __WEBPACK_IMPORTED_MODULE_9__not_found_component__["a" /* NotFoundComponent */],
-                __WEBPACK_IMPORTED_MODULE_10__login_login_component__["a" /* LoginComponent */],
-                __WEBPACK_IMPORTED_MODULE_11__messenger_messenger_component__["a" /* MessengerComponent */],
+                __WEBPACK_IMPORTED_MODULE_9__app_component__["a" /* AppComponent */],
+                __WEBPACK_IMPORTED_MODULE_10__not_found_component__["a" /* NotFoundComponent */],
+                __WEBPACK_IMPORTED_MODULE_11__login_login_component__["a" /* LoginComponent */],
+                __WEBPACK_IMPORTED_MODULE_12__messenger_messenger_component__["a" /* MessengerComponent */],
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
                 __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormsModule */],
                 __WEBPACK_IMPORTED_MODULE_3__angular_http__["a" /* HttpModule */],
                 __WEBPACK_IMPORTED_MODULE_3__angular_http__["b" /* JsonpModule */],
-                __WEBPACK_IMPORTED_MODULE_12__app_routing_module__["a" /* AppRoutingModule */]
+                __WEBPACK_IMPORTED_MODULE_13__app_routing_module__["a" /* AppRoutingModule */]
             ],
-            providers: [__WEBPACK_IMPORTED_MODULE_4__services_auth_service__["a" /* AuthService */], __WEBPACK_IMPORTED_MODULE_5__services_conversation_service__["a" /* ConversationService */], __WEBPACK_IMPORTED_MODULE_7__services_user_service__["a" /* UserService */], __WEBPACK_IMPORTED_MODULE_6__services_message_service__["a" /* MessageService */]],
-            bootstrap: [__WEBPACK_IMPORTED_MODULE_8__app_component__["a" /* AppComponent */]]
+            providers: [__WEBPACK_IMPORTED_MODULE_4__services_auth_service__["a" /* AuthService */], __WEBPACK_IMPORTED_MODULE_5__services_conversation_service__["a" /* ConversationService */], __WEBPACK_IMPORTED_MODULE_7__services_user_service__["a" /* UserService */], __WEBPACK_IMPORTED_MODULE_6__services_message_service__["a" /* MessageService */], __WEBPACK_IMPORTED_MODULE_8__services_event_service__["a" /* EventService */]],
+            bootstrap: [__WEBPACK_IMPORTED_MODULE_9__app_component__["a" /* AppComponent */]]
         }), 
         __metadata('design:paramtypes', [])
     ], AppModule);
@@ -877,7 +818,7 @@ var AppModule = (function () {
 
 /***/ }),
 
-/***/ 489:
+/***/ 532:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -891,7 +832,7 @@ var Conversation = (function () {
 
 /***/ }),
 
-/***/ 490:
+/***/ 533:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -905,7 +846,61 @@ var User = (function () {
 
 /***/ }),
 
-/***/ 491:
+/***/ 534:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(61);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs__ = __webpack_require__(162);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__constants__ = __webpack_require__(102);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__requestOptionsHelper__ = __webpack_require__(103);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EventService; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var endPoint = __WEBPACK_IMPORTED_MODULE_3__constants__["a" /* API_URL */] + '/event';
+var EventService = (function () {
+    function EventService(http) {
+        this.http = http;
+    }
+    EventService.prototype.getPublic = function () {
+        return this.http.get(endPoint, __WEBPACK_IMPORTED_MODULE_4__requestOptionsHelper__["a" /* jwtHeader */]())
+            .map(function (res) { return res.json(); })
+            .catch(handleError);
+    };
+    EventService.prototype.invite = function (idsFriends, idEvent) {
+        return this.http.post(endPoint, __WEBPACK_IMPORTED_MODULE_4__requestOptionsHelper__["a" /* jwtHeader */]())
+            .map(function (res) { return res.json(); })
+            .catch(handleError);
+    };
+    EventService = __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["c" /* Injectable */])(), 
+        __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Http */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Http */]) === 'function' && _a) || Object])
+    ], EventService);
+    return EventService;
+    var _a;
+}());
+function handleError(error) {
+    return __WEBPACK_IMPORTED_MODULE_2_rxjs__["Observable"].throw("errMsg Event Service");
+}
+//# sourceMappingURL=event.service.js.map
+
+/***/ }),
+
+/***/ 535:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -921,10 +916,10 @@ var environment = {
 
 /***/ }),
 
-/***/ 559:
+/***/ 603:
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(63)();
+exports = module.exports = __webpack_require__(76)();
 // imports
 
 
@@ -939,10 +934,10 @@ module.exports = module.exports.toString();
 
 /***/ }),
 
-/***/ 560:
+/***/ 604:
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(63)();
+exports = module.exports = __webpack_require__(76)();
 // imports
 
 
@@ -957,10 +952,10 @@ module.exports = module.exports.toString();
 
 /***/ }),
 
-/***/ 561:
+/***/ 605:
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(63)();
+exports = module.exports = __webpack_require__(76)();
 // imports
 
 
@@ -975,41 +970,41 @@ module.exports = module.exports.toString();
 
 /***/ }),
 
-/***/ 567:
+/***/ 611:
 /***/ (function(module, exports) {
 
 module.exports = "<router-outlet></router-outlet>\n\n"
 
 /***/ }),
 
-/***/ 568:
+/***/ 612:
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"h100\">\n  <div class=\"logoPanel\">\n    <div class=\"logoP1\">LOGO</div>\n    <!--<button>Nota importante</button>\n    <p>Aclaración nota importante</p>-->\n  </div>\n  <div class=\"formsPanel\">\n    <div *ngIf=\"showLogin\">\n      <form (submit)=\"loginSubmit()\">\n        <div class=\"form-group\">\n          <label for=\"emailTxt\">Correo</label>\n          <input type=\"email\" class=\"form-control\" id=\"emailTxt\" placeholder=\"yisus@gmail.com\"\n            [(ngModel)]=\"userEmail\" name=\"email\" required>\n        </div>\n        <div class=\"form-group\">\n          <label for=\"passwordTxt\">Contraseña</label>\n          <input type=\"password\" class=\"form-control\" id=\"passwordTxt\" placeholder=\"****\"\n            [(ngModel)]=\"userPass\" name=\"password\" required>\n        </div>\n        <div class=\"checkbox\">\n          <label>\n            <input type=\"checkbox\"> Recordarme\n          </label>\n        </div>\n        <div>\n          <button class=\"btn btn-primary\">Ingresar</button>\n          <a class=\"btn btn-default\" (click)=\"showLogin = false\">Registrarse</a>\n        </div>\n      </form>\n    </div>\n    <div *ngIf=\"!showLogin\">\n      <form (submit)=\"signinSubmit()\">\n        <div class=\"form-group\">\n          <label for=\"nombreTxt\">Nombre</label>\n          <input type=\"text\" class=\"form-control\" id=\"nombreTxt\" placeholder=\"Yisus Christ\"\n            [(ngModel)]=\"userName\" name=\"name\" required>\n        </div>\n        <div class=\"form-group\">\n          <label for=\"emailTxt\">Correo</label>\n          <input type=\"email\" class=\"form-control\" id=\"emailTxt\" placeholder=\"yisus@gmail.com\"\n            [(ngModel)]=\"userEmail\" name=\"email\" required>\n        </div>\n        <div class=\"form-group\">\n          <label for=\"passwordTxt\">Contraseña</label>\n          <input type=\"password\" class=\"form-control\" id=\"passwordTxt\" placeholder=\"****\"\n            [(ngModel)]=\"userPass\" name=\"password\" required>\n        </div>\n        <div>\n          <button type=\"submit\" class=\"btn btn-primary\">Registrar</button>\n          <a class=\"btn btn-default\" role=\"button\" (click)=\"showLogin = true\">Ingresar</a>\n        </div>\n      </form>\n      <span style=\"color:red;\">{{errorMessage}}}</span>\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
-/***/ 569:
+/***/ 613:
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"h100\">\n  <div class=\"areaMain\">\n    <div class=\"areaConversations\">\n      <div *ngIf=\"!creatingConv\" class=\"list-group\">\n        <a *ngFor=\"let conv of conversations\"\n          (click)=\"showConv(conv.id)\"\n          class=\"list-group-item\">\n          <strong>{{ conv.name }}</strong>  {{ conv.lastMessageText }}\n        </a>\n      </div>\n      <div *ngIf=\"!creatingConv\" class=\"newPanel\">\n        <button (click)=\"newConv()\" class=\"btn btn-success\">Nueva</button>\n      </div>\n      <div *ngIf=\"creatingConv\" class=\"areaNewConv\">\n        <div *ngFor=\"let friend of friends\">\n          <label>\n            <input type=\"checkbox\" [(ngModel)]=\"friend.checked\">\n            <span>{{ friend.name }}</span>\n          </label>\n        </div>\n        <div class=\"newPanel\">\n          <button (click)=\"cancelNewConv()\" class=\"btn btn-danger\">Cancelar</button>\n          <button (click)=\"createConv()\" class=\"btn btn-success\">Crear</button>\n        </div>\n      </div>\n    </div>\n    <div class=\"areaChat\">\n      <div *ngIf=\"currentConversation\" class=\"panel panel-default h100\">\n        <div class=\"panel-heading\">\n          <span >{{currentConversation.name}},</span>\n        </div>\n        <div class=\"panel-body messagesArea\">\n          <div *ngFor=\"let message of messages\">\n            <strong>{{ message.userName }}:  </strong>{{ message.text }}\n          </div>\n        </div>\n      </div>\n      <div *ngIf=\"!currentConversation\">\n        <h2>Conversacion no seleccionada</h2>\n      </div>\n      <div class=\"areaMessage\">\n        <form class=\"form-inline\" (submit)=\"sendMessage()\">\n          <div class=\"input-group\">\n            <input [value]=\"newMessage\" (input)=\"newMessage=$event.target.value\"\n              type=\"text\" class=\"form-control\" placeholder=\"Mensaje\" >\n            <div class=\"input-group-btn\">\n              <button type=\"submit\" class=\"btn btn-success\">Enviar</button>\n            </div>\n          </div>\n        </form>\n      </div>\n    </div>\n  </div>\n  <nav class=\"navbar navbar-default navbar-fixed-top\">\n    <div class=\"container\">\n      <a class=\"navbar-brand\" href=\"#\">UN Messenger</a>\n      <strong>{{userName}}</strong>\n      <ul class=\"nav navbar-nav navbar-right\">\n        <button type=\"button\" class=\"btn btn-default\" (click)=\"logout()\">Cerrar sesión</button>\n      </ul>\n    </div>\n  </nav>\n\n</div>\n"
 
 /***/ }),
 
-/***/ 596:
+/***/ 887:
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
 
-/***/ 598:
+/***/ 889:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(368);
+module.exports = __webpack_require__(411);
 
 
 /***/ })
 
-},[598]);
+},[889]);
 //# sourceMappingURL=main.bundle.js.map
