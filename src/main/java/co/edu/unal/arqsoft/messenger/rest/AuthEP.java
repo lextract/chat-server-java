@@ -3,6 +3,7 @@ package co.edu.unal.arqsoft.messenger.rest;
 import co.edu.unal.arqsoft.messenger.businesslogic.AuthBL;
 import co.edu.unal.arqsoft.messenger.dto.UserDTO;
 import co.edu.unal.arqsoft.messenger.model.User;
+import co.edu.unal.arqsoft.messenger.security.LoginLdap;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -31,9 +32,16 @@ public class AuthEP {
     ) {
         try {
             UserDTO user = AuthBL.login(email, password);
+//            LoginLdap ldap = new LoginLdap();
+//            String result = ldap.login(user.name, password);
+//            if (user.id == 0 || !result.equals("OK")) {
+//                System.out.println(result);
+//                return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+//            }
             if (user.id == 0) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            } else {
+            }
+            else {
                 user.token = Jwts.builder()
                     .setSubject(String.valueOf(user.id))
                     .signWith(SignatureAlgorithm.HS512, SecurityConfig.key)

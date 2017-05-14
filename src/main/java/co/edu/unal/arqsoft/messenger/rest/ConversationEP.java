@@ -36,7 +36,7 @@ public class ConversationEP {
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> create(@RequestBody ConversationDTO conversation) {
+    public ResponseEntity<?> create(HttpServletRequest req, @RequestBody ConversationDTO conversation) {
         try {
             // TODO: validate creator same jwt user
             ConversationBL.create(conversation);

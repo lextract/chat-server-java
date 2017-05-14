@@ -24,7 +24,7 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
   
     @Override
     protected String[] getServletMappings() {
-        return new String[] { "/auth", "/conversation", "/user", "/message" };
+        return new String[] { "/auth", "/conversation", "/user", "/message", "/event" };
     }
     
     @Override

@@ -12,13 +12,17 @@ import javax.servlet.http.HttpServletResponse;
 import co.edu.unal.arqsoft.messenger.servicios.*;
 import java.util.ArrayList;
 import javax.xml.ws.WebServiceRef;
-
+import org.netbeans.j2ee.wsdl.friendseventsbpelmodule.src.friendseventsesb.FriendsEventsESBService;
+import businesslogic.service.Event;
 /**
  *
  * @author alex
  */
 @WebServlet("/mostrar-eventos")
 public class MostrarEventos  extends HttpServlet {
+
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/192.168.2.128_9130/friendsEventsESBService/friendsEventsESBPort.wsdl")
+    private FriendsEventsESBService service_1;
 
     //@WebServiceRef(wsdlLocation = "WEB-INF/wsdl/192.168.2.128_8080/EventByte/EventAccess.wsdl")
     //private businesslogic.service.EventAccess_Service service_1;
@@ -29,7 +33,7 @@ public class MostrarEventos  extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-        List<Event> eventos = publicEvents();
+        List<Event> eventos = listaEventos();
         
         PrintWriter out= response.getWriter();
         for (Event ev : eventos){
@@ -45,7 +49,7 @@ public class MostrarEventos  extends HttpServlet {
         return arr;
     }
 
-    private java.util.List<Event> publicEvents() {
+    private List<co.edu.unal.arqsoft.messenger.servicios.Event> publicEvents() {
         //EventAccess_Service service = new EventAccess_Service();
         if (service == null)
         System.out.println("NO ESTA INSTNACIADO");
@@ -53,6 +57,30 @@ public class MostrarEventos  extends HttpServlet {
         EventAccess port = service.getEventAccessPort();
         return port.publicEvents();
     }
+    
+    List<Event> listaEventos(){
+        
+        try { // Call Web Service Operation
+            org.netbeans.j2ee.wsdl.friendseventsbpelmodule.src.friendseventsesb.FriendsEventsESBPortType port = service_1.getFriendsEventsESBPort();
+            // TODO initialize WS operation arguments here
+            java.lang.String email = "anfrodriguezri@unal.edu.co";
+            java.lang.String password = "12345678";
+            int userId = 8;
+            javax.xml.ws.Holder<Boolean> authenticationSuccess = new javax.xml.ws.Holder<Boolean>();
+            javax.xml.ws.Holder<businesslogic.service.GetFriendsResponse> friends = new javax.xml.ws.Holder<businesslogic.service.GetFriendsResponse>();
+            javax.xml.ws.Holder<businesslogic.service.PrivateEventsResponse> privateEvents = new javax.xml.ws.Holder<businesslogic.service.PrivateEventsResponse>();
+            port.friendsEventsESBOperation(email, password, userId, authenticationSuccess, friends, privateEvents);
+            
+            List<Event> evs = privateEvents.value.getReturn();
+            return evs;
+        } catch (Exception ex) {
+            // TODO handle custom exceptions here
+            //System.out.println(ex);
+            ex.printStackTrace();
+        }
+        return new ArrayList<Event>();
+    }
+    
     
     void nada(){
         

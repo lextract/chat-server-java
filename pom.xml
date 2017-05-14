@@ -18,6 +18,11 @@
     
     <dependencies>
         <dependency>
+            <groupId>com.novell.ldap</groupId>
+            <artifactId>jldap</artifactId>
+            <version>2009-10-07</version>
+        </dependency>
+        <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
             <version>0.7.0</version>
@@ -170,6 +175,24 @@
                             <staleFile>${project.build.directory}/jaxws/stale/EventAccess.stale</staleFile>
                         </configuration>
                         <id>wsimport-generate-EventAccess</id>
+                        <phase>generate-sources</phase>
+                    </execution>
+                    <execution>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlFiles>
+                                <wsdlFile>192.168.2.128_9130/friendsEventsESBService/friendsEventsESBPort.wsdl</wsdlFile>
+                            </wsdlFiles>
+                            <packageName></packageName>
+                            <vmArgs>
+                                <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+                            </vmArgs>
+                            <wsdlLocation>http://192.168.2.128:9130/friendsEventsESBService/friendsEventsESBPort?wsdl</wsdlLocation>
+                            <staleFile>${project.build.directory}/jaxws/stale/friendsEventsESBPort.stale</staleFile>
+                        </configuration>
+                        <id>wsimport-generate-friendsEventsESBPort</id>
                         <phase>generate-sources</phase>
                     </execution>
                 </executions>
