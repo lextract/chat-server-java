@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="friendsEventsESB" targetNamespace="http://j2ee.netbeans.org/wsdl/EventBpel/src/friendsEventsESB" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://j2ee.netbeans.org/wsdl/EventBpel/src/friendsEventsESB" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://Service.BusinessLogic/" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <types>
+    <xsd:schema targetNamespace="http://j2ee.netbeans.org/wsdl/EventBpel/src/friendsEventsESB">
+            <xsd:import namespace="http://Service.BusinessLogic/" schemaLocation="http://192.168.2.15:8080/UNProfile/Friends?xsd=1"/>
+            <xsd:import namespace="http://Service.BusinessLogic/" schemaLocation="http://192.168.2.140:8080/EventByte/EventAccess?xsd=1"/>
+        </xsd:schema>
+  </types>
+  <message name="friendsEventsESBOperationResponse">
+    <part name="authenticationSuccess" type="xsd:boolean">
+    </part>
+    <part name="friends" type="ns0:getFriendsResponse">
+    </part>
+    <part name="privateEvents" type="ns0:privateEventsResponse">
+    </part>
+  </message>
+  <message name="friendsEventsESBOperationRequest">
+    <part name="email" type="xsd:string">
+    </part>
+    <part name="password" type="xsd:string">
+    </part>
+    <part name="userId" type="xsd:int">
+    </part>
+  </message>
+  <portType name="friendsEventsESBPortType">
+    <operation name="friendsEventsESBOperation">
+      <input name="input1" message="tns:friendsEventsESBOperationRequest">
+    </input>
+      <output name="output1" message="tns:friendsEventsESBOperationResponse">
+    </output>
+    </operation>
+  </portType>
+  <binding name="friendsEventsESBBinding" type="tns:friendsEventsESBPortType">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="friendsEventsESBOperation">
+      <soap:operation/>
+      <input name="input1">
+        <soap:body use="literal" namespace="http://j2ee.netbeans.org/wsdl/EventBpel/src/friendsEventsESB"/>
+      </input>
+      <output name="output1">
+        <soap:body use="literal" namespace="http://j2ee.netbeans.org/wsdl/EventBpel/src/friendsEventsESB"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="friendsEventsESBService">
+    <port name="friendsEventsESBPort" binding="tns:friendsEventsESBBinding">
+      <soap:address location="http://ESB:9119/friendsEventsESBService/friendsEventsESBPort"/>
+    </port>
+  </service>
+    <plnk:partnerLinkType name="friendsEventsESB">
+        <!-- A partner link type is automatically generated when a new port type is added. Partner link types are used by BPEL processes. 
+In a BPEL process, a partner link represents the interaction between the BPEL process and a partner service. Each partner link is associated with a partner link type.
+A partner link type characterizes the conversational relationship between two services. The partner link type can have one or two roles.-->
+        <plnk:role name="friendsEventsESBPortTypeRole" portType="tns:friendsEventsESBPortType"/>
+    </plnk:partnerLinkType>
+</definitions>
